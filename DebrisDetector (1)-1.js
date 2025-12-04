@@ -2,7 +2,7 @@
 
 const chatListener = JsMacros.on("RecvMessage", JavaWrapper.methodToJava((event) => {
     const msg = event.text.getString();
-    const target = "You sense debris nearby 1 ANCIENT_DEBRIS nearby";
+    const target = "You sense debris 1 ANCIENT_DEBRIS nearby";
 
     if (msg === target) {
         // adds waypoint 
