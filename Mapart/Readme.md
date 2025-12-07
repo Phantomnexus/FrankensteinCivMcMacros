@@ -1,4 +1,4 @@
-# Directions to use
+9# Directions to use
 
 Place your Map art schematic turn on printing mode.
 Reduce printing mode range to 2 blocks(can be more for maparts with less shades).
@@ -24,3 +24,4 @@ I am a bit lazy
  
 this bot is 100% human formulated.
 
+it uses arthirobs potato farm as its base
