@@ -26,16 +26,16 @@ const SERVER_PORT = 25565; //  your server's port
 const RELOG_CHECK_TICKS = 100; // Ticks to wait after reconnection attempt before checking position
 
 // Chest Location 
-const CHEST_STAND_X = 4712; 
-const CHEST_STAND_Z = -6708; 
-const CHEST_BLOCK_X = 4710; 
+const CHEST_STAND_X = 4712; // you stand here 
+const CHEST_STAND_Z = -6708; // your stand here
+const CHEST_BLOCK_X = 4710;  // Chest coords
 const CHEST_BLOCK_Z = -6709; 
 const CHEST_BASE_Y = 64; // **!!! MUST SET THIS: Y-coordinate of the BOTTOM chest block !!!**
 const CHEST_Y_OFFSETS = [0, 1, 2, 3]; 
 
 // Inventory Goal (All 16 colors)
 const CARPET_COLORS = [
-    { id: "minecraft:white_carpet", goalCount: 128 },
+    { id: "minecraft:white_carpet", goalCount: 128 }, // Change goal count according to requirement
     { id: "minecraft:orange_carpet", goalCount: 128 },
     { id: "minecraft:magenta_carpet", goalCount: 128 },
     { id: "minecraft:light_blue_carpet", goalCount: 128 },
