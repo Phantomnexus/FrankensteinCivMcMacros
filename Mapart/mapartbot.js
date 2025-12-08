@@ -3,9 +3,8 @@
 !!! CRITICAL: You must add the Canvas boundary, and Chest base y.
 */
 
-// =========================================================================================
+
 // --- CONFIGURATION: MOVEMENT, RELOG, AND CHEST LOCATION ---
-// =========================================================================================
 
 const lagTick = 9; // Delay ticks (adjust for your connection)
 const abortKey = "s"; // The key to press to stop the script
@@ -20,14 +19,14 @@ const zSouth = -6673;
 const pitchGoal = 20; 
 const lineCompact = 2; // Refill trigger: Check inventory every 2 rows
 
-// Auto-Relog Settings (!!! CRITICAL: MUST BE SET CORRECTLY !!!)
+// Auto-Relog Settings (!!! CRITICAL : SET CORRECTLY !!!)
 const SERVER_IP_PORT = "play.civmc.net"; // ip adress
 const SERVER_PORT = 25565; //  your server's port
 const RELOG_CHECK_TICKS = 100; // Ticks to wait after reconnection attempt before checking position
 
 // Chest Location 
 const CHEST_STAND_X = 4712; // you stand here 
-const CHEST_STAND_Z = -6708; // your stand here
+const CHEST_STAND_Z = -6708; // you stand here
 const CHEST_BLOCK_X = 4710;  // Chest coords
 const CHEST_BLOCK_Z = -6709; 
 const CHEST_BASE_Y = 64; // **!!! MUST SET THIS: Y-coordinate of the BOTTOM chest block !!!**
