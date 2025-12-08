@@ -1,6 +1,6 @@
 /*
 
-!!! CRITICAL: You must add the SERVER_IP_PORT, SERVER_PORT, and CHEST_BASE_Y.
+!!! CRITICAL: You must add the Canvas boundary, and Chest base y.
 */
 
 // =========================================================================================
