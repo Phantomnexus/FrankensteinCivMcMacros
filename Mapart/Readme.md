@@ -4,7 +4,7 @@ Place your Map art schematic turn on printing mode.
 Reduce printing mode range to 2 or 1 blocks(can be more for maparts with less shades).
 
 
-‐-------------------------------‐-------------------------------‐---------------
+‐-------------------------------‐-------------------------------‐-------
 
 
 ● Put 4 chests stacked on top of each other nearby any border of the farm full of all 16 shades of carpets.
