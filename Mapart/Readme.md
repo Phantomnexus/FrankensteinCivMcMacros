@@ -1,4 +1,4 @@
-9# Directions to use
+# Directions to use
 
 Place your Map art schematic turn on printing mode.
 Reduce printing mode range to 2 or 1 blocks(can be more for maparts with less shades).
