@@ -21,7 +21,7 @@ const pitchGoal = 20;
 const lineCompact = 2; // Refill trigger: Check inventory every 2 rows
 
 // Auto-Relog Settings (!!! CRITICAL: MUST BE SET CORRECTLY !!!)
-const SERVER_IP_PORT = "mc.civmc.net"; // ip adress
+const SERVER_IP_PORT = "play.civmc.net"; // ip adress
 const SERVER_PORT = 25565; //  your server's port
 const RELOG_CHECK_TICKS = 100; // Ticks to wait after reconnection attempt before checking position
 
