@@ -1,6 +1,18 @@
+
+# What does it do ?
+
+ItPatrols Canvas: The script automatically moves your player back and forth across a set area (defined by X and Z coordinates) to keep the Litematica printer running.
+​Auto-Refill System: It checks your inventory for all 16 carpet colors. If stocks are low, it automatically walks to your supply area and quickly refills items from up to four stacked chests.
+​Handles Kicks/Crashes: If the server kicks you (e.g., for spam/lag), the script automatically reconnects to the server.
+​Saves Progress: After reconnecting, it immediately resumes the patrol and printing process from the exact X and Z block where the disconnection happened, so no work is lost.
+
+
+
+
+
 # Directions to use
 
-Place your Map art schematic turn on printing mode.
+Place your Map art schematic.
 Reduce printing mode range to 2 or 1 blocks(can be more for maparts with less shades).
 
 
