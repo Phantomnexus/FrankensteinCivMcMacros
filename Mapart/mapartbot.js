@@ -7,7 +7,7 @@ This script automates canvas patrolling, inventory refilling, and crash recovery
 
 1. PRINTER RANGE: This script CANNOT change Litematica's printer range. 
    You must set the Printer Placement Range in your Litematica settings (usually 1 or 2 blocks) 
-   to match the speed and placement stability needed for your server.
+   to match the speed and placement stability needed.
 
 2. PRINTER KEY: Change the LITEMATICA_PRINTER_KEY below to your actual keybind.
 */
@@ -32,7 +32,7 @@ const pitchGoal = 20;
 const lineCompact = 2; // Refill trigger: Check inventory every 2 rows
 
 // Auto-Relog Settings 
-const SERVER_IP_PORT = "mc.civmc.net"; 
+const SERVER_IP_PORT = "play.civmc.net"; 
 const SERVER_PORT = 25565; 
 const RELOG_CHECK_TICKS = 100; // Ticks to wait after reconnection attempt before checking position
 
@@ -61,7 +61,7 @@ const CARPET_COLORS = [
     { id: "minecraft:brown_carpet", goalCount: 128 },
     { id: "minecraft:green_carpet", goalCount: 128 },
     { id: "minecraft:red_carpet", goalCount: 128 },
-    { id: "minecraft:black_carpet", goalCount: 128 }
+    { id: "minecraft:black_carpet", goalCount: 128 } // Change these according to the mapart schematic.
 ];
 
 
