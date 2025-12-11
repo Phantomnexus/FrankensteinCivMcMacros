@@ -1,15 +1,27 @@
 /*
+MAP ART SCHEMATIC AUTOMATION SCRIPT 
 
-!!! CRITICAL: You must add the Canvas boundary, and Chest base y.
+This script automates canvas patrolling, inventory refilling, and crash recovery for map art printing.
+
+!!! IMPORTANT CONFIGURATION NOTES !!!
+
+1. PRINTER RANGE: This script CANNOT change Litematica's printer range. 
+   You must set the Printer Placement Range in your Litematica settings (usually 1 or 2 blocks) 
+   to match the speed and placement stability needed for your server.
+
+2. PRINTER KEY: Change the LITEMATICA_PRINTER_KEY below to your actual keybind.
 */
 
 
 // --- CONFIGURATION: MOVEMENT, RELOG, AND CHEST LOCATION ---
 
-const lagTick = 9; // Delay ticks (adjust for your connection)
+const lagTick = 9; // Delay ticks (adjust for your connection/lag)
 const abortKey = "s"; // The key to press to stop the script
 
-// Canvas Patrol Boundaries
+// --- LITEMATICA PRINTER SETTINGS ---
+const LITEMATICA_PRINTER_KEY = "key.keyboard.p"; // <-- CHANGE THIS to your Litematica Printer Toggle Key!
+
+// Canvas Patrol Boundaries (X and Z area the bot moves within)
 const xEast = 4842;
 const xWest = 4711;
 const zNorth = -6729;
@@ -19,22 +31,22 @@ const zSouth = -6673;
 const pitchGoal = 20; 
 const lineCompact = 2; // Refill trigger: Check inventory every 2 rows
 
-// Auto-Relog Settings (!!! CRITICAL : SET CORRECTLY !!!)
-const SERVER_IP_PORT = "play.civmc.net"; // ip adress
-const SERVER_PORT = 25565; //  your server's port
+// Auto-Relog Settings 
+const SERVER_IP_PORT = "mc.civmc.net"; 
+const SERVER_PORT = 25565; 
 const RELOG_CHECK_TICKS = 100; // Ticks to wait after reconnection attempt before checking position
 
 // Chest Location 
-const CHEST_STAND_X = 4712; // you stand here 
-const CHEST_STAND_Z = -6708; // you stand here
-const CHEST_BLOCK_X = 4710;  // Chest coords
+const CHEST_STAND_X = 4712; 
+const CHEST_STAND_Z = -6708; 
+const CHEST_BLOCK_X = 4710; 
 const CHEST_BLOCK_Z = -6709; 
-const CHEST_BASE_Y = 64; // **!!! MUST SET THIS: Y-coordinate of the BOTTOM chest block !!!**
+const CHEST_BASE_Y = 64; // **Y-coordinate of the BOTTOM chest block**
 const CHEST_Y_OFFSETS = [0, 1, 2, 3]; 
 
 // Inventory Goal (All 16 colors)
 const CARPET_COLORS = [
-    { id: "minecraft:white_carpet", goalCount: 128 }, // Change goal count according to requirement
+    { id: "minecraft:white_carpet", goalCount: 128 },
     { id: "minecraft:orange_carpet", goalCount: 128 },
     { id: "minecraft:magenta_carpet", goalCount: 128 },
     { id: "minecraft:light_blue_carpet", goalCount: 128 },
@@ -52,9 +64,9 @@ const CARPET_COLORS = [
     { id: "minecraft:black_carpet", goalCount: 128 }
 ];
 
-// -----------------------------------------------------------------------------------------
+
 // --- CORE GLOBAL STATE (Persists across crashes/relogs) ---
-// -----------------------------------------------------------------------------------------
+
 
 const p = Player.getPlayer();
 var currentDirection = 1; 
@@ -65,17 +77,16 @@ var currentCompact;
 var shouldTerminate = false; 
 var isResuming = false; 
 
-
-// -----------------------------------------------------------------------------------------
-// 
-// -----------------------------------------------------------------------------------------
+function togglePrinter(state) {
+    KeyBind.keyBind(LITEMATICA_PRINTER_KEY, state); 
+}
 
 function lookAtCenter(x, z) {
     p.lookAt(x + 0.5, p.getY() + 0.5, z + 0.5);
 }
 
 function lookAtChest(y) {
-    p.lookAt(CHEST_BLOCK_X + 0.5, y + 0.5, CHEST_BLOCK_Z + 0.5);
+    p.lookAt(CHEST_BLOCK_X + 0.5, p.getY() + 0.5, CHEST_BLOCK_Z + 0.5);
 }
 
 function checkManualAbort() {
@@ -97,18 +108,11 @@ function walkTo(x, z) {
     Client.waitTick(lagTick);
 }
 
-
-// ----------------------------------------------------------------------------------------
-// Movement 
-// -----------------------------------------------------------------------------------------
-
 function farmLine() {
     
-    // Skip the long walkTo if we just re-logged and are already near the target X-coordinate
+    // Skip the long walkTo if we are resuming mid-line
     if (!isResuming) {
         walkTo(currentX, zSouth * currentDirection + zNorth * (1 - currentDirection));
-    } else {
-        Chat.log(`Resuming movement from Z=${currentZ}.`);
     }
     isResuming = false; 
     
@@ -182,18 +186,12 @@ function farmTwoLine() {
 }
 
 function farmMain() { 
-    Chat.log("Starting/Resuming patrol at X=" + currentX);
-
+    // Chat.log is suppressed here for clean running
     while (currentX <= xEast && !shouldTerminate) {
         farmTwoLine();
         Client.waitTick(lagTick * 2); 
     }
 }
-
-
-// -----------------------------------------------------------------------------------------
-// INVENTORY REFILL
-// -----------------------------------------------------------------------------------------
 
 function getPlayerItemCount(itemId) {
     const slots = Player.openInventory().getSlots('main', 'hotbar');
@@ -209,7 +207,6 @@ function getPlayerItemCount(itemId) {
 
 function checkInventoryDeficit() {
     const deficitList = [];
-    Chat.log("--- Checking Inventory Deficit ---");
     for (const itemData of CARPET_COLORS) {
         const currentCount = getPlayerItemCount(itemData.id);
         const required = itemData.goalCount - currentCount;
@@ -228,7 +225,7 @@ function refillFromChest(deficitList) {
     walkTo(CHEST_STAND_X, CHEST_STAND_Z);
     if (shouldTerminate) return;
 
-    Chat.log("--- Starting Refill from Stacked Chests ---");
+    Chat.log("[REFILL] Starting transfer from chests.");
 
     for (const y_offset of CHEST_Y_OFFSETS) {
         const current_chest_y = CHEST_BASE_Y + y_offset;
@@ -240,7 +237,6 @@ function refillFromChest(deficitList) {
 
         const chestInv = Player.openInventory();
         if (!chestInv || !chestInv.getName().includes("Chest")) {
-            Chat.log(`WARNING: Failed to open chest at Y=${current_chest_y}. Skipping.`);
             continue; 
         }
 
@@ -283,8 +279,6 @@ function refillFromChest(deficitList) {
         Client.waitTick(lagTick);
         if (shouldTerminate) break;
     }
-
-    Chat.log("--- Refill Attempt Complete. Inventory Closed ---");
 }
 
 function refillMain() {
@@ -293,27 +287,27 @@ function refillMain() {
 
     if (deficitList.length > 0) {
         refillFromChest(deficitList);
-    } else {
-        Chat.log("Inventory check passed. Skipping refill.");
     }
 }
-
-
-// -----------------------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------------------
 
 function start() {
     currentCompact = 0;
     shouldTerminate = false;
     
+    // --- INITIAL PRINTER ACTIVATION ---
+    togglePrinter(true); 
+    Client.waitTick(5);
+    togglePrinter(false); 
+    Chat.log(`[INFO] Printer toggled ON. Key: ${LITEMATICA_PRINTER_KEY}`);
+    // ----------------------------------
+
     // Initial State Check/Reset
     if (currentX === undefined || currentX > xEast) {
         currentX = Math.floor(p.getX());
         currentDirection = 1;
-        Chat.log(`Starting new patrol cycle at X=${currentX}.`);
+        Chat.log(`[START] Starting new patrol cycle at X=${currentX}.`);
     } else {
-        Chat.log(`Resuming patrol cycle at preserved X=${currentX}, Z=${currentZ}.`);
+        Chat.log(`[RESUME] Patrol resumed from last session.`);
         isResuming = true;
     }
 
@@ -326,50 +320,58 @@ function start() {
             farmMain(); 
 
             if (!shouldTerminate) {
-                Chat.log("Patrol cycle finished. Performing end-of-run refill check.");
+                Chat.log("[INFO] Patrol cycle finished. Checking refill.");
                 currentCompact = lineCompact; 
                 refillMain(); 
                 
                 currentX = xWest;
                 currentDirection = 1; 
-                Chat.log("Restarting patrol cycle...");
+                Chat.log("[INFO] Restarting patrol cycle.");
             }
 
         } catch (e) {
             
-            Chat.log("🔴 DISCONNECTION DETECTED: " + e.message);
+            Chat.log("🔴 DISCONNECTED. Attempting reconnection...");
             KeyBind.keyBind("key.forward", false); 
 
-            Chat.log("Attempting to reconnect in 5 seconds...");
-            Client.waitTick(100); 
+            Client.waitTick(100); // Wait 5 seconds before attempting relog
 
             while (true) {
                 checkManualAbort();
                 if (shouldTerminate) break;
                 
-                Chat.log("Calling World.connect API to reconnect...");
                 World.connect(SERVER_IP_PORT, SERVER_PORT); 
                 
-                Chat.log("Waiting for connection to stabilize...");
-                Client.waitTick(RELOG_CHECK_TICKS); // Wait for connection/loading
+                Client.waitTick(RELOG_CHECK_TICKS);
 
                 try {
-                    // Check if connected (p.getX() will throw if not)
                     p.getX(); 
                     
+                    // --- PRINTER ACTIVATION AFTER RELOG ---
+                    Client.waitTick(10); 
+                    togglePrinter(true); 
+                    Client.waitTick(5);
+                    togglePrinter(false); 
+                    // --------------------------------------
+                    
                     isResuming = true; 
-                    Chat.log(`✅ Successfully reconnected! Resuming at X=${currentX}, Z=${p.getZ()}...`);
+                    Chat.log(`✅ RECONNECTED. Resuming patrol.`);
                     break; 
 
                 } catch (relogError) {
-                    Chat.log("Relog attempt failed or world not loaded. Trying connection again...");
+                    Chat.log("Retry connection...");
                 }
             }
         }
     }
 
+    // --- FINAL ACTIONS ---
+    togglePrinter(true); // Ensure it's off if running
+    Client.waitTick(5);
+    togglePrinter(false);
+
     if (shouldTerminate) {
-        Chat.log("Script manually aborted. Final position saved (X=" + currentX + ", Z=" + currentZ + ").");
+        Chat.log("🚨 SCRIPT ABORTED. Final position saved (X=" + currentX + ", Z=" + currentZ + ").");
     } else {
         Chat.log("Script finished."); 
     }
