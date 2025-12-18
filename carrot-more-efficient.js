@@ -196,7 +196,7 @@ function farmMain() { // Main farming functions
         Chat.log("Resuming at "+ (row-xWest)+"th row")
     }
     inv.setSelectedHotbarSlotIndex(0);
-    while (row <= xEast && !shouldTerminate) { // ADDED: Check shouldTerminate in main loop
+    while (row <= xEast && !shouldTerminate) { //  Check shouldTerminate in main loop
         timeRemaining = Math.floor((xEast-row+1)*timePerRow);//Count the time to harvest the rows and add the time to go to the compactor
         Chat.log((xEast-row+1) +" row remainings");
         Chat.log("Time remaining : "+ Math.floor(timeRemaining/60)+ " minutes and "+(timeRemaining%60)+" seconds");
