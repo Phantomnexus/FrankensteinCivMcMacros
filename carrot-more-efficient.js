@@ -98,7 +98,7 @@ function farmLine() { // Farm a line
     
     const tapDuration = 4; // Ticks to hold the key down (Press duration)
     const tapWait = 5;     // Ticks to wait after releasing the key (Idle duration)
-    // -----------------------------------------------------------
+    
 
     while (!lineFinished && !shouldTerminate) { // ADDED: check shouldTerminate
         Client.waitTick();
@@ -117,11 +117,11 @@ function farmLine() { // Farm a line
         
         if (shouldTerminate) break; 
         
-        // 1. PRESS 'W' (key.forward)
+        
         KeyBind.keyBind("key.forward", true); 
         Client.waitTick(tapDuration);
         
-        // 2. RELEASE 'W'
+        
         KeyBind.keyBind("key.forward", false); 
         Client.waitTick(tapWait); 
         
@@ -139,7 +139,6 @@ function farmLine() { // Farm a line
     KeyBind.keyBind("key.forward", false);
     Client.waitTick(lagTick);
 }
-// ------------------------------------
 
 function farmTwoLine() { //Farm two line
     farmLine();
