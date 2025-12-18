@@ -100,7 +100,7 @@ function farmLine() { // Farm a line
     const tapWait = 5;     // Ticks to wait after releasing the key (Idle duration)
     
 
-    while (!lineFinished && !shouldTerminate) { // ADDED: check shouldTerminate
+    while (!lineFinished && !shouldTerminate) { // check shouldTerminate
         Client.waitTick();
         checkManualAbort(); // Check for abort key frequently
         if (shouldTerminate) break;
