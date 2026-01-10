@@ -8,7 +8,7 @@
 //
 const p = Player.getPlayer();
 const inv = Player.openInventory();
-const lagTick = 15; 
+const lagTick = 12; 
 const abortKey = "s"; 
 
 // Farm Borders 
