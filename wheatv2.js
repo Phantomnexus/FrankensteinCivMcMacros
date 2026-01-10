@@ -34,7 +34,7 @@ var shouldTerminate = false;
 //misc
 const discordGroup = 'maius-bots';
 const farmName = 'wheatfarm-big';
-const regrowtime = '16';
+const regrowTime = '16';
 
 function checkManualAbort() {
     if (KeyBind.getPressedKeys().contains("key.keyboard." + abortKey)) {
