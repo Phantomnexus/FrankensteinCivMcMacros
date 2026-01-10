@@ -178,7 +178,7 @@ function start() {
     row = Math.floor(p.getX());
     
     while (row >= xWest && !shouldTerminate) {
-        eatIfHungry(); 
+        eatwhenHungry(); 
         farmLine();   
         yeetSeeds();  
         
