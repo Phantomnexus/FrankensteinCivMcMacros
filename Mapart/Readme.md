@@ -32,10 +32,5 @@ Reduce printing mode range to 2 or 1 blocks(can be more for maparts with less sh
 
 ---------------------------------------------
 
-Yes someparts of this scripts are ai generated or improvised by ai mostly improvised.
-
-🥱 I am a bit lazy to write 🦥
- 
-this bot is 100% human formulated.
 
 it uses arthirobs potato farm as its base
