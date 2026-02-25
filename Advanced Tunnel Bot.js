@@ -502,11 +502,7 @@ function chestItems() {
     Player.openInventory().close()
     Client.waitTick(10)
 }
-// -----------------------------------------------------------------------------
-// Removed the following two lines which caused the Syntax Error:
-// if (Chat.getHistory().getRecvLine(0).getText().getString() == "A SimpleAdminHacks /config option is preventing you from breaking that ore without a silk touch pickaxe.") { // You hav ctb activating
-//     inv.setSelectedHotbarSlotIndex(1);
-// -----------------------------------------------------------------------------
+// 
 
 // Function that returns whether or not the inventory is full
 function isInvFull() {
